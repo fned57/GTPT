@@ -26,7 +26,8 @@
         <div class="row">
             <div class="mx-auto text-center">
                 <img src="<?php  echo($row["Avatar"]); ?>" class="rounded-circle" width="500" hight="500" alt="example placeholder avatar">
-                <form action="" method="post">
+                <form action="" method="post" enctype="multipart/form-data">
+                    Chọn file để upload:
                     <input type="file" name="fileupload" id="fileupload">
                     <input type="submit" value="Đăng ảnh" name="submit">
                 </form>
@@ -60,11 +61,21 @@
             echo "Phải Post dữ liệu";
             die;
         }
-        //Kiểm tra dữ liệu trong file có tôn tại hay không
-        if (!isset($_FILES["fileupload"])){
+         // Kiểm tra có dữ liệu fileupload trong $_FILES không
+        // Nếu không có thì dừng
+        if (!isset($_FILES["fileupload"]))
+        {
             echo "Dữ liệu không đúng cấu trúc";
             die;
         }
+
+        // Kiểm tra dữ liệu có bị lỗi không
+        if ($_FILES["fileupload"]['error'] != 0)
+        {
+            echo "Dữ liệu upload bị lỗi";
+            die;
+        }
+
 
         $target_dir    = "uploads/";
         $target_file   = $target_dir . basename($_FILES["fileupload"]["name"]);
